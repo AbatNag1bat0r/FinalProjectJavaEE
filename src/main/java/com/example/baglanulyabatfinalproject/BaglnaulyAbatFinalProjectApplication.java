@@ -1,4 +1,4 @@
-package com.example.baglnaulyabatfinalproject;
+package com.example.baglanulyabatfinalproject;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

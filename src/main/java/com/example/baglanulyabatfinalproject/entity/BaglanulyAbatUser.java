@@ -1,4 +1,4 @@
-package com.example.baglnaulyabatfinalproject.entity;
+package com.example.baglanulyabatfinalproject.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
