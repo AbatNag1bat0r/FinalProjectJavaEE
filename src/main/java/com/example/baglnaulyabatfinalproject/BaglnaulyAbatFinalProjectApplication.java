@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class BaglnaulyAbatFinalProjectApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(BaglnaulyAbatFinalProjectApplication.class, args);
+    public static void main(String[] args){
+        SpringApplication.run(BaglanulyAbatFinalProjectApplication.class, args);
     }
-
 }
