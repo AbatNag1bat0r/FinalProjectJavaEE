@@ -60,7 +60,7 @@ public class BaglanulyAbatUser {
     @Builder.Default
     private List<BaglnaulyAbatComments> comments = new ArrayList<>();
 
-    @ManyToMany(mapperBy ="members", fetch = FetchType.Lazy)
+    @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
     @Builder.Default
     private List<BaglnaulyAbatProject> projects = new ArrayList<>();
 
