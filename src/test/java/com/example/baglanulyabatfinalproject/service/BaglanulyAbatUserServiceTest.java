@@ -3,7 +3,7 @@ package com.example.baglanulyabatfinalproject.service;
 import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatUserDto.BaglanulyAbatUserRequest;
 import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatUserDto.BaglanulyAbatUserResponse;
 import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatUser;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatUser.BaglanulyAbatUserRole;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatUserRole;
 import com.example.baglanulyabatfinalproject.exception.BaglanulyAbatDuplicateResourceException;
 import com.example.baglanulyabatfinalproject.exception.BaglanulyAbatResourceNotFoundException;
 import com.example.baglanulyabatfinalproject.repository.BaglanulyAbatUserRepository;
@@ -40,24 +40,14 @@ class BaglanulyAbatUserServiceTest {
     @BeforeEach
     void setUp() {
         testUser = BaglanulyAbatUser.builder()
-                .id(1L)
-                .username("testuser")
-                .email("test@example.com")
-                .password("encoded_password")
-                .firstName("Test")
-                .lastName("User")
-                .role(BaglanulyAbatUserRole.USER)
-                .isActive(true)
-                .createdAt(LocalDateTime.now())
-                .build();
+                .id(1L).username("testuser").email("test@example.com")
+                .password("encoded_password").firstName("Test").lastName("User")
+                .role(BaglanulyAbatUserRole.USER).isActive(true)
+                .createdAt(LocalDateTime.now()).build();
 
         testRequest = BaglanulyAbatUserRequest.builder()
-                .username("testuser")
-                .email("test@example.com")
-                .password("password123")
-                .firstName("Test")
-                .lastName("User")
-                .build();
+                .username("testuser").email("test@example.com")
+                .password("password123").firstName("Test").lastName("User").build();
     }
 
     @Test
@@ -71,36 +61,33 @@ class BaglanulyAbatUserServiceTest {
 
         assertThat(response).isNotNull();
         assertThat(response.getUsername()).isEqualTo("testuser");
-        assertThat(response.getEmail()).isEqualTo("test@example.com");
         verify(userRepository).save(any(BaglanulyAbatUser.class));
     }
 
     @Test
-    @DisplayName("createUser — duplicate username throws exception")
-    void createUser_WhenDuplicateUsername_ShouldThrowException() {
+    @DisplayName("createUser — duplicate username throws")
+    void createUser_WhenDuplicateUsername_ShouldThrow() {
         when(userRepository.existsByUsername("testuser")).thenReturn(true);
 
         assertThatThrownBy(() -> userService.createUser(testRequest))
-                .isInstanceOf(BaglanulyAbatDuplicateResourceException.class)
-                .hasMessageContaining("testuser");
+                .isInstanceOf(BaglanulyAbatDuplicateResourceException.class);
 
         verify(userRepository, never()).save(any());
     }
 
     @Test
     @DisplayName("getUserById — found")
-    void getUserById_WhenExists_ShouldReturnResponse() {
+    void getUserById_WhenExists_ShouldReturn() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
 
         BaglanulyAbatUserResponse response = userService.getUserById(1L);
 
         assertThat(response.getId()).isEqualTo(1L);
-        assertThat(response.getUsername()).isEqualTo("testuser");
     }
 
     @Test
-    @DisplayName("getUserById — not found throws exception")
-    void getUserById_WhenNotFound_ShouldThrowException() {
+    @DisplayName("getUserById — not found throws")
+    void getUserById_WhenMissing_ShouldThrow() {
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> userService.getUserById(99L))

@@ -3,8 +3,8 @@ package com.example.baglanulyabatfinalproject.service;
 import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatTaskDto.BaglanulyAbatTaskRequest;
 import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatTaskDto.BaglanulyAbatTaskResponse;
 import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatTask;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatTask.BaglanulyAbatTaskPriority;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatTask.BaglanulyAbatTaskStatus;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatTaskPriority;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatTaskStatus;
 import com.example.baglanulyabatfinalproject.exception.BaglanulyAbatResourceNotFoundException;
 import com.example.baglanulyabatfinalproject.repository.*;
 import com.example.baglanulyabatfinalproject.service.impl.BaglanulyAbatTaskServiceImpl;
@@ -43,21 +43,16 @@ class BaglanulyAbatTaskServiceTest {
     @BeforeEach
     void setUp() {
         testTask = BaglanulyAbatTask.builder()
-                .id(1L)
-                .title("Test Task")
-                .description("Description")
-                .status(BaglanulyAbatTaskStatus.TODO)
-                .priority(BaglanulyAbatTaskPriority.MEDIUM)
-                .createdAt(LocalDateTime.now())
-                .build();
+                .id(1L).title("Test Task").description("Description")
+                .status(BaglanulyAbatTaskStatus.TODO).priority(BaglanulyAbatTaskPriority.MEDIUM)
+                .createdAt(LocalDateTime.now()).build();
     }
 
     @Test
     @DisplayName("createTask — minimal request success")
     void createTask_WithMinimalRequest_ShouldSucceed() {
         BaglanulyAbatTaskRequest request = BaglanulyAbatTaskRequest.builder()
-                .title("Test Task")
-                .build();
+                .title("Test Task").build();
 
         when(taskRepository.save(any())).thenReturn(testTask);
         when(commentRepository.countByTaskId(any())).thenReturn(0L);

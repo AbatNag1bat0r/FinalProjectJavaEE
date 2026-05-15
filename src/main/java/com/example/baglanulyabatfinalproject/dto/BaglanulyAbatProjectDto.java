@@ -1,6 +1,6 @@
 package com.example.baglanulyabatfinalproject.dto;
 
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatProject.BaglanulyAbatProjectStatus;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatProjectStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -25,11 +25,8 @@ public class BaglanulyAbatProjectDto {
         private String description;
 
         private BaglanulyAbatProjectStatus status;
-
         private LocalDate startDate;
-
         private LocalDate endDate;
-
         private List<Long> memberIds;
     }
 

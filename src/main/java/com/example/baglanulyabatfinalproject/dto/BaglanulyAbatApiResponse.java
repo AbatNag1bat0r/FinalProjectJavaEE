@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BaglanulyAbatApiResponse {
+public class BaglanulyAbatApiResponse<T> {
     private Boolean success;
     private String message;
     private T data;

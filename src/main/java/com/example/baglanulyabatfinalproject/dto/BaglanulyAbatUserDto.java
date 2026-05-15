@@ -1,6 +1,6 @@
 package com.example.baglanulyabatfinalproject.dto;
 
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatUser.BaglanulyAbatUserRole;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatUserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -9,11 +9,13 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 public class BaglanulyAbatUserDto {
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class BaglanulyAbatUserRequest{
+    public static class BaglanulyAbatUserRequest {
+
         @NotBlank(message = "Username is required")
         @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
         private String username;
@@ -40,11 +42,12 @@ public class BaglanulyAbatUserDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class BaglanulyAbatUserResponse{
+    public static class BaglanulyAbatUserResponse {
+
         private Long id;
         private String username;
         private String email;
-        private String fisrtName;
+        private String firstName;
         private String lastName;
         private BaglanulyAbatUserRole role;
         private Boolean isActive;

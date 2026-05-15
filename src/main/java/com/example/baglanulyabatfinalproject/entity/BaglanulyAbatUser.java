@@ -1,5 +1,6 @@
 package com.example.baglanulyabatfinalproject.entity;
 
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatUserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,10 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(exclude = {"task", "comments", "projects"})
+@EqualsAndHashCode(exclude = {"tasks", "comments", "projects"})
 @ToString(exclude = {"tasks", "comments", "projects"})
-
 public class BaglanulyAbatUser {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,21 +32,21 @@ public class BaglanulyAbatUser {
     private String password;
 
     @Column(name = "first_name", length = 50)
-    private String fisrtName;
+    private String firstName;
 
     @Column(name = "last_name", length = 50)
     private String lastName;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
+    @Column(nullable = false)
     @Builder.Default
     private BaglanulyAbatUserRole role = BaglanulyAbatUserRole.USER;
 
-    @Column(name ="created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "update_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @Column(name = "is_active", nullable = false)
@@ -58,18 +59,14 @@ public class BaglanulyAbatUser {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
-    private List<BaglnaulyAbatComments> comments = new ArrayList<>();
+    private List<BaglanulyAbatComment> comments = new ArrayList<>();
 
     @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY)
     @Builder.Default
-    private List<BaglnaulyAbatProject> projects = new ArrayList<>();
+    private List<BaglanulyAbatProject> projects = new ArrayList<>();
 
     @PreUpdate
-    public void preUpdate(){
+    public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public enum BaglnaulyAbatUserRole{
-        AMIN, MANAGER, USER
     }
 }

@@ -23,44 +23,30 @@ public class BaglanulyAbatTaskSpecification {
                         cb.like(cb.lower(root.get("description")), pattern)
                 ));
             }
-
             if (filter.getStatus() != null) {
                 predicates.add(cb.equal(root.get("status"), filter.getStatus()));
             }
-
             if (filter.getPriority() != null) {
                 predicates.add(cb.equal(root.get("priority"), filter.getPriority()));
             }
-
             if (filter.getAssigneeId() != null) {
                 predicates.add(cb.equal(root.get("assignee").get("id"), filter.getAssigneeId()));
             }
-
             if (filter.getProjectId() != null) {
                 predicates.add(cb.equal(root.get("project").get("id"), filter.getProjectId()));
             }
-
             if (filter.getTagId() != null) {
-                predicates.add(cb.isMember(
-                        root.get("tags"),
-                        root.get("tags")
-                ));
-                // Join-based tag filter
                 var tagJoin = root.join("tags");
                 predicates.add(cb.equal(tagJoin.get("id"), filter.getTagId()));
             }
-
             if (filter.getDueDateFrom() != null) {
                 predicates.add(cb.greaterThanOrEqualTo(root.get("dueDate"), filter.getDueDateFrom()));
             }
-
             if (filter.getDueDateTo() != null) {
                 predicates.add(cb.lessThanOrEqualTo(root.get("dueDate"), filter.getDueDateTo()));
             }
 
-            // Для устранения дублирований при JOIN
             query.distinct(true);
-
             return cb.and(predicates.toArray(new Predicate[0]));
         };
     }

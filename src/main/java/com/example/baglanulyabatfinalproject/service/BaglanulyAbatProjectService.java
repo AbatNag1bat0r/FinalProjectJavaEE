@@ -2,7 +2,7 @@ package com.example.baglanulyabatfinalproject.service;
 
 import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatProjectDto.BaglanulyAbatProjectRequest;
 import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatProjectDto.BaglanulyAbatProjectResponse;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatProject.BaglanulyAbatProjectStatus;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatProjectStatus;
 
 import java.util.List;
 

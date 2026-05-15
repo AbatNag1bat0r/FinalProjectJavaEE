@@ -1,8 +1,8 @@
 package com.example.baglanulyabatfinalproject.service.impl;
 
 import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatDashboardDto;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatTask.BaglanulyAbatTaskPriority;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatTask.BaglanulyAbatTaskStatus;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatTaskPriority;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatTaskStatus;
 import com.example.baglanulyabatfinalproject.repository.BaglanulyAbatCommentRepository;
 import com.example.baglanulyabatfinalproject.repository.BaglanulyAbatProjectRepository;
 import com.example.baglanulyabatfinalproject.repository.BaglanulyAbatTaskRepository;
@@ -32,26 +32,22 @@ public class BaglanulyAbatDashboardServiceImpl implements BaglanulyAbatDashboard
     public BaglanulyAbatDashboardDto getDashboard() {
         log.info("Building dashboard statistics");
 
-        // Задачи по статусам
         Map<String, Long> tasksByStatus = new LinkedHashMap<>();
         for (BaglanulyAbatTaskStatus status : BaglanulyAbatTaskStatus.values()) {
             tasksByStatus.put(status.name(), (long) taskRepository.findByStatus(status).size());
         }
 
-        // Задачи по приоритетам
         Map<String, Long> tasksByPriority = new LinkedHashMap<>();
         for (BaglanulyAbatTaskPriority priority : BaglanulyAbatTaskPriority.values()) {
             tasksByPriority.put(priority.name(), (long) taskRepository.findByPriority(priority).size());
         }
 
-        // Просроченные задачи (dueDate < сегодня и статус != DONE/CANCELLED)
         long overdue = taskRepository
                 .findByDueDateBeforeAndStatusNot(LocalDate.now(), BaglanulyAbatTaskStatus.DONE)
                 .stream()
                 .filter(t -> t.getStatus() != BaglanulyAbatTaskStatus.CANCELLED)
                 .count();
 
-        // Топ исполнителей
         Map<String, Long> topAssignees = new LinkedHashMap<>();
         userRepository.findAllByIsActiveTrue().stream()
                 .limit(5)

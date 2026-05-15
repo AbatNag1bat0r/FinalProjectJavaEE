@@ -1,9 +1,12 @@
 package com.example.baglanulyabatfinalproject.service.impl;
 
-import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatAuthDto.*;
+import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatAuthDto.BaglanulyAbatAuthResponse;
+import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatAuthDto.BaglanulyAbatLoginRequest;
+import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatAuthDto.BaglanulyAbatRefreshTokenRequest;
+import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatAuthDto.BaglanulyAbatRegisterRequest;
 import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatUserDto.BaglanulyAbatUserResponse;
 import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatUser;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatUser.BaglanulyAbatUserRole;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatUserRole;
 import com.example.baglanulyabatfinalproject.exception.BaglanulyAbatBadRequestException;
 import com.example.baglanulyabatfinalproject.exception.BaglanulyAbatDuplicateResourceException;
 import com.example.baglanulyabatfinalproject.repository.BaglanulyAbatUserRepository;
@@ -108,11 +111,8 @@ public class BaglanulyAbatAuthServiceImpl implements BaglanulyAbatAuthService {
                 .createdAt(user.getCreatedAt()).build();
 
         return BaglanulyAbatAuthResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .tokenType("Bearer")
-                .expiresIn(jwtService.getExpirationMs())
-                .user(userResponse)
-                .build();
+                .accessToken(accessToken).refreshToken(refreshToken)
+                .tokenType("Bearer").expiresIn(jwtService.getExpirationMs())
+                .user(userResponse).build();
     }
 }

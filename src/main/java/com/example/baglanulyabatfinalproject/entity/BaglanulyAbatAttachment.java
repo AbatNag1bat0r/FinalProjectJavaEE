@@ -13,26 +13,35 @@ import java.time.LocalDateTime;
 @Builder
 @EqualsAndHashCode(exclude = "task")
 @ToString(exclude = "task")
-
 public class BaglanulyAbatAttachment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "file_name", nullable = false)
-    private String fillName;
+    private String fileName;
 
     @Column(name = "file_path", nullable = false)
     private String filePath;
 
+    @Column(name = "file_size")
+    private Long fileSize;
+
     @Column(name = "content_type", length = 100)
     private String contentType;
 
-    @Column(name = "content_type", nullable = false, updatable = false)
-    @Builder.Default
-    private LocalDateTime uploadedAt = LocalDateTime.now();
+    @Column(name = "uploaded_at", nullable = false, updatable = false)
+    private LocalDateTime uploadedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id", nullable = false)
     private BaglanulyAbatTask task;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.uploadedAt == null) {
+            this.uploadedAt = LocalDateTime.now();
+        }
+    }
 }

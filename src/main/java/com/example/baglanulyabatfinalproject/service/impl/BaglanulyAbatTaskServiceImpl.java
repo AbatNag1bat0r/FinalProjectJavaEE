@@ -6,9 +6,9 @@ import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatUserDto.BaglanulyA
 import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatProject;
 import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatTag;
 import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatTask;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatTask.BaglanulyAbatTaskPriority;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatTask.BaglanulyAbatTaskStatus;
 import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatUser;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatTaskPriority;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatTaskStatus;
 import com.example.baglanulyabatfinalproject.exception.BaglanulyAbatResourceNotFoundException;
 import com.example.baglanulyabatfinalproject.repository.BaglanulyAbatAttachmentRepository;
 import com.example.baglanulyabatfinalproject.repository.BaglanulyAbatCommentRepository;
@@ -83,37 +83,27 @@ public class BaglanulyAbatTaskServiceImpl implements BaglanulyAbatTaskService {
 
     @Override
     public List<BaglanulyAbatTaskResponse> getAllTasks() {
-        return taskRepository.findAll().stream()
-                .map(this::toResponse)
-                .toList();
+        return taskRepository.findAll().stream().map(this::toResponse).toList();
     }
 
     @Override
     public List<BaglanulyAbatTaskResponse> getTasksByAssignee(Long assigneeId) {
-        return taskRepository.findByAssigneeId(assigneeId).stream()
-                .map(this::toResponse)
-                .toList();
+        return taskRepository.findByAssigneeId(assigneeId).stream().map(this::toResponse).toList();
     }
 
     @Override
     public List<BaglanulyAbatTaskResponse> getTasksByProject(Long projectId) {
-        return taskRepository.findByProjectId(projectId).stream()
-                .map(this::toResponse)
-                .toList();
+        return taskRepository.findByProjectId(projectId).stream().map(this::toResponse).toList();
     }
 
     @Override
     public List<BaglanulyAbatTaskResponse> getTasksByStatus(BaglanulyAbatTaskStatus status) {
-        return taskRepository.findByStatus(status).stream()
-                .map(this::toResponse)
-                .toList();
+        return taskRepository.findByStatus(status).stream().map(this::toResponse).toList();
     }
 
     @Override
     public List<BaglanulyAbatTaskResponse> getTasksByPriority(BaglanulyAbatTaskPriority priority) {
-        return taskRepository.findByPriority(priority).stream()
-                .map(this::toResponse)
-                .toList();
+        return taskRepository.findByPriority(priority).stream().map(this::toResponse).toList();
     }
 
     @Override
@@ -163,16 +153,15 @@ public class BaglanulyAbatTaskServiceImpl implements BaglanulyAbatTaskService {
     @Transactional
     public void deleteTask(Long id) {
         log.info("Deleting task with id: {}", id);
-        BaglanulyAbatTask task = findTaskById(id);
-        taskRepository.delete(task);
+        taskRepository.delete(findTaskById(id));
     }
 
     @Override
     public List<BaglanulyAbatTaskResponse> searchTasks(String query) {
-        return taskRepository.searchTasks(query).stream()
-                .map(this::toResponse)
-                .toList();
+        return taskRepository.searchTasks(query).stream().map(this::toResponse).toList();
     }
+
+    // ─── Helpers ─────────────────────────────────────────────────────────────
 
     private BaglanulyAbatTask findTaskById(Long id) {
         return taskRepository.findById(id)
@@ -184,14 +173,9 @@ public class BaglanulyAbatTaskServiceImpl implements BaglanulyAbatTaskService {
         if (task.getAssignee() != null) {
             BaglanulyAbatUser u = task.getAssignee();
             assigneeResponse = BaglanulyAbatUserResponse.builder()
-                    .id(u.getId())
-                    .username(u.getUsername())
-                    .email(u.getEmail())
-                    .firstName(u.getFirstName())
-                    .lastName(u.getLastName())
-                    .role(u.getRole())
-                    .isActive(u.getIsActive())
-                    .build();
+                    .id(u.getId()).username(u.getUsername()).email(u.getEmail())
+                    .firstName(u.getFirstName()).lastName(u.getLastName())
+                    .role(u.getRole()).isActive(u.getIsActive()).build();
         }
 
         List<String> tagNames = task.getTags() != null
@@ -205,20 +189,11 @@ public class BaglanulyAbatTaskServiceImpl implements BaglanulyAbatTaskService {
         Integer attachmentsCount = attachmentRepository.countByTaskId(task.getId()).intValue();
 
         return BaglanulyAbatTaskResponse.builder()
-                .id(task.getId())
-                .title(task.getTitle())
-                .description(task.getDescription())
-                .status(task.getStatus())
-                .priority(task.getPriority())
-                .dueDate(task.getDueDate())
-                .createdAt(task.getCreatedAt())
-                .updatedAt(task.getUpdatedAt())
-                .assignee(assigneeResponse)
-                .projectId(projectId)
-                .projectName(projectName)
-                .tagNames(tagNames)
-                .commentsCount(commentsCount)
-                .attachmentsCount(attachmentsCount)
+                .id(task.getId()).title(task.getTitle()).description(task.getDescription())
+                .status(task.getStatus()).priority(task.getPriority())
+                .dueDate(task.getDueDate()).createdAt(task.getCreatedAt()).updatedAt(task.getUpdatedAt())
+                .assignee(assigneeResponse).projectId(projectId).projectName(projectName)
+                .tagNames(tagNames).commentsCount(commentsCount).attachmentsCount(attachmentsCount)
                 .build();
     }
 }

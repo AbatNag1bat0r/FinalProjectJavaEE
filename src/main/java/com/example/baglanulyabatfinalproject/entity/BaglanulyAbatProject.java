@@ -1,5 +1,6 @@
 package com.example.baglanulyabatfinalproject.entity;
 
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatProjectStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,8 +17,8 @@ import java.util.List;
 @Builder
 @EqualsAndHashCode(exclude = {"tasks", "members"})
 @ToString(exclude = {"tasks", "members"})
-
 public class BaglanulyAbatProject {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,16 +44,16 @@ public class BaglanulyAbatProject {
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "update_at")
-    private LocalDateTime updateAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
-    private List<BaglanulyAbatTask> task = new ArrayList<>();
+    private List<BaglanulyAbatTask> tasks = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "project_numbers",
+            name = "project_members",
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
@@ -62,9 +63,5 @@ public class BaglanulyAbatProject {
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public enum BaglanulyAbatProjectStatus{
-        ACTIVE, ON_HOLD, COMPLETED, ARCHIVED
     }
 }

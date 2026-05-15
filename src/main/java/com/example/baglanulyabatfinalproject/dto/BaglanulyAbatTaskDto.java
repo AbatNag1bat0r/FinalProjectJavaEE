@@ -1,7 +1,7 @@
 package com.example.baglanulyabatfinalproject.dto;
 
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatTask.BaglanulyAbatTaskPriority;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatTask.BaglanulyAbatTaskStatus;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatTaskPriority;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatTaskStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -11,11 +11,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class BaglanulyAbatTaskDto {
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class BaglanulyAbatTaskStatus {
+    public static class BaglanulyAbatTaskRequest {
+
         @NotBlank(message = "Title is required")
         @Size(max = 200, message = "Title must not exceed 200 characters")
         private String title;
@@ -26,19 +28,21 @@ public class BaglanulyAbatTaskDto {
 
         private BaglanulyAbatTaskPriority priority;
 
-        private LocalDate dueDate ;
+        private LocalDate dueDate;
 
-        private Long assihneeId;
+        private Long assigneeId;
 
         private Long projectId;
 
         private List<Long> tagIds;
     }
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class BaglanulyAbatTaskResponse{
+    public static class BaglanulyAbatTaskResponse {
+
         private Long id;
         private String title;
         private String description;

@@ -1,5 +1,7 @@
 package com.example.baglanulyabatfinalproject.entity;
 
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatTaskPriority;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatTaskStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,15 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name ="tasks")
+@Table(name = "tasks")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @EqualsAndHashCode(exclude = {"comments", "tags", "attachments", "assignee", "project"})
-@ToString(exclude = {"comments", "tags", "attachments", "assingnee", "project"})
-
+@ToString(exclude = {"comments", "tags", "attachments", "assignee", "project"})
 public class BaglanulyAbatTask {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +33,7 @@ public class BaglanulyAbatTask {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     @Builder.Default
-    private BaglnaulyAbatTaskStatus status = BaglanulyAbatTaskStatus.TODO;
+    private BaglanulyAbatTaskStatus status = BaglanulyAbatTaskStatus.TODO;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -49,14 +51,14 @@ public class BaglanulyAbatTask {
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assingnee_id")
+    @JoinColumn(name = "assignee_id")
     private BaglanulyAbatUser assignee;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private BaglanulyAbatProject project;
 
-    @OneToMany(mappedBy = "tssk", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
     private List<BaglanulyAbatComment> comments = new ArrayList<>();
 
@@ -74,7 +76,7 @@ public class BaglanulyAbatTask {
     private List<BaglanulyAbatAttachment> attachments = new ArrayList<>();
 
     @PreUpdate
-    public void preUpdate(){
+    public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
 }

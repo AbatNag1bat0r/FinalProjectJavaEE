@@ -1,7 +1,7 @@
 package com.example.baglanulyabatfinalproject.repository;
 
 import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatProject;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatProject.BaglanulyAbatProjectStatus;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatProjectStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -3,7 +3,7 @@ package com.example.baglanulyabatfinalproject.service.impl;
 import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatUserDto.BaglanulyAbatUserRequest;
 import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatUserDto.BaglanulyAbatUserResponse;
 import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatUser;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatUser.BaglanulyAbatUserRole;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatUserRole;
 import com.example.baglanulyabatfinalproject.exception.BaglanulyAbatDuplicateResourceException;
 import com.example.baglanulyabatfinalproject.exception.BaglanulyAbatResourceNotFoundException;
 import com.example.baglanulyabatfinalproject.repository.BaglanulyAbatUserRepository;
@@ -40,7 +40,7 @@ public class BaglanulyAbatUserServiceImpl implements BaglanulyAbatUserService {
         BaglanulyAbatUser user = BaglanulyAbatUser.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
-                .password(request.getPassword()) // TODO: encode password in Security step
+                .password(request.getPassword())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .role(request.getRole() != null ? request.getRole() : BaglanulyAbatUserRole.USER)
@@ -66,16 +66,12 @@ public class BaglanulyAbatUserServiceImpl implements BaglanulyAbatUserService {
 
     @Override
     public List<BaglanulyAbatUserResponse> getAllUsers() {
-        return userRepository.findAll().stream()
-                .map(this::toResponse)
-                .toList();
+        return userRepository.findAll().stream().map(this::toResponse).toList();
     }
 
     @Override
     public List<BaglanulyAbatUserResponse> getAllActiveUsers() {
-        return userRepository.findAllByIsActiveTrue().stream()
-                .map(this::toResponse)
-                .toList();
+        return userRepository.findAllByIsActiveTrue().stream().map(this::toResponse).toList();
     }
 
     @Override
@@ -98,7 +94,7 @@ public class BaglanulyAbatUserServiceImpl implements BaglanulyAbatUserService {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         if (request.getPassword() != null && !request.getPassword().isBlank()) {
-            user.setPassword(request.getPassword()); // TODO: encode in Security step
+            user.setPassword(request.getPassword());
         }
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
@@ -113,8 +109,7 @@ public class BaglanulyAbatUserServiceImpl implements BaglanulyAbatUserService {
     @Transactional
     public void deleteUser(Long id) {
         log.info("Deleting user with id: {}", id);
-        BaglanulyAbatUser user = findUserById(id);
-        userRepository.delete(user);
+        userRepository.delete(findUserById(id));
     }
 
     @Override
@@ -128,9 +123,7 @@ public class BaglanulyAbatUserServiceImpl implements BaglanulyAbatUserService {
 
     @Override
     public List<BaglanulyAbatUserResponse> searchUsers(String query) {
-        return userRepository.searchUsers(query).stream()
-                .map(this::toResponse)
-                .toList();
+        return userRepository.searchUsers(query).stream().map(this::toResponse).toList();
     }
 
     private BaglanulyAbatUser findUserById(Long id) {
@@ -140,15 +133,10 @@ public class BaglanulyAbatUserServiceImpl implements BaglanulyAbatUserService {
 
     private BaglanulyAbatUserResponse toResponse(BaglanulyAbatUser user) {
         return BaglanulyAbatUserResponse.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .role(user.getRole())
-                .isActive(user.getIsActive())
-                .createdAt(user.getCreatedAt())
-                .updatedAt(user.getUpdatedAt())
+                .id(user.getId()).username(user.getUsername()).email(user.getEmail())
+                .firstName(user.getFirstName()).lastName(user.getLastName())
+                .role(user.getRole()).isActive(user.getIsActive())
+                .createdAt(user.getCreatedAt()).updatedAt(user.getUpdatedAt())
                 .build();
     }
 }

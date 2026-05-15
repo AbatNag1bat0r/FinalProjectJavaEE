@@ -4,8 +4,8 @@ import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatProjectDto.Baglanu
 import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatProjectDto.BaglanulyAbatProjectResponse;
 import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatUserDto.BaglanulyAbatUserResponse;
 import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatProject;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatProject.BaglanulyAbatProjectStatus;
 import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatUser;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatProjectStatus;
 import com.example.baglanulyabatfinalproject.exception.BaglanulyAbatBadRequestException;
 import com.example.baglanulyabatfinalproject.exception.BaglanulyAbatDuplicateResourceException;
 import com.example.baglanulyabatfinalproject.exception.BaglanulyAbatResourceNotFoundException;
@@ -105,7 +105,6 @@ public class BaglanulyAbatProjectServiceImpl implements BaglanulyAbatProjectServ
     @Override
     @Transactional
     public BaglanulyAbatProjectResponse addMember(Long projectId, Long userId) {
-        log.info("Adding user {} to project {}", userId, projectId);
         BaglanulyAbatProject project = findById(projectId);
         BaglanulyAbatUser user = userRepository.findById(userId)
                 .orElseThrow(() -> new BaglanulyAbatResourceNotFoundException("User", userId));
@@ -123,7 +122,6 @@ public class BaglanulyAbatProjectServiceImpl implements BaglanulyAbatProjectServ
     @Override
     @Transactional
     public BaglanulyAbatProjectResponse removeMember(Long projectId, Long userId) {
-        log.info("Removing user {} from project {}", userId, projectId);
         BaglanulyAbatProject project = findById(projectId);
         project.getMembers().removeIf(m -> m.getId().equals(userId));
         return toResponse(projectRepository.save(project));
@@ -132,7 +130,6 @@ public class BaglanulyAbatProjectServiceImpl implements BaglanulyAbatProjectServ
     @Override
     @Transactional
     public void deleteProject(Long id) {
-        log.info("Deleting project {}", id);
         projectRepository.delete(findById(id));
     }
 

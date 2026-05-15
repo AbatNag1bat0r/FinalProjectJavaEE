@@ -3,11 +3,10 @@ package com.example.baglanulyabatfinalproject.controller;
 import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatApiResponse;
 import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatProjectDto.BaglanulyAbatProjectRequest;
 import com.example.baglanulyabatfinalproject.dto.BaglanulyAbatProjectDto.BaglanulyAbatProjectResponse;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatProject.BaglanulyAbatProjectStatus;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatProjectStatus;
 import com.example.baglanulyabatfinalproject.service.BaglanulyAbatProjectService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/projects")
 @RequiredArgsConstructor
-@Slf4j
 public class BaglanulyAbatProjectController {
 
     private final BaglanulyAbatProjectService projectService;

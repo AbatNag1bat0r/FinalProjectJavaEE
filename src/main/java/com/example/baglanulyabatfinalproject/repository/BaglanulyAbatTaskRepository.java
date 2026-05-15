@@ -1,8 +1,8 @@
 package com.example.baglanulyabatfinalproject.repository;
 
 import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatTask;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatTask.BaglanulyAbatTaskPriority;
-import com.example.baglanulyabatfinalproject.entity.BaglanulyAbatTask.BaglanulyAbatTaskStatus;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatTaskPriority;
+import com.example.baglanulyabatfinalproject.entity.enums.BaglanulyAbatTaskStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -27,8 +27,7 @@ public interface BaglanulyAbatTaskRepository
 
     List<BaglanulyAbatTask> findByAssigneeIdAndStatus(Long assigneeId, BaglanulyAbatTaskStatus status);
 
-    List<BaglanulyAbatTask> findByDueDateBeforeAndStatusNot(
-            LocalDate date, BaglanulyAbatTaskStatus status);
+    List<BaglanulyAbatTask> findByDueDateBeforeAndStatusNot(LocalDate date, BaglanulyAbatTaskStatus status);
 
     @Query("SELECT t FROM BaglanulyAbatTask t WHERE " +
             "LOWER(t.title) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
