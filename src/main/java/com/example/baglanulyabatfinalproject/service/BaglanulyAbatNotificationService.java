@@ -38,7 +38,7 @@ public class BaglanulyAbatNotificationService {
 
     private void simulateWork(String task) {
         try {
-            Thread.sleep(100); // имитация I/O
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             log.warn("Async task '{}' interrupted", task);

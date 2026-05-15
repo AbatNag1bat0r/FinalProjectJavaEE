@@ -89,7 +89,6 @@ public class BaglanulyAbatAttachmentServiceImpl implements BaglanulyAbatAttachme
         log.info("Deleting attachment {}", id);
         BaglanulyAbatAttachment attachment = findById(id);
 
-        // Удаляем физический файл
         try {
             Files.deleteIfExists(Paths.get(attachment.getFilePath()));
         } catch (IOException e) {

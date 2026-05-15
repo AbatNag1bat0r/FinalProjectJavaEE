@@ -161,8 +161,6 @@ public class BaglanulyAbatTaskServiceImpl implements BaglanulyAbatTaskService {
         return taskRepository.searchTasks(query).stream().map(this::toResponse).toList();
     }
 
-    // ─── Helpers ─────────────────────────────────────────────────────────────
-
     private BaglanulyAbatTask findTaskById(Long id) {
         return taskRepository.findById(id)
                 .orElseThrow(() -> new BaglanulyAbatResourceNotFoundException("Task", id));

@@ -16,11 +16,12 @@ FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+RUN mkdir -p /app/uploads && chown -R appuser:appgroup /app/uploads
+
 USER appuser
 
 COPY --from=builder /app/build/libs/*.jar app.jar
-
-RUN mkdir -p /app/uploads
 
 EXPOSE 8080
 
